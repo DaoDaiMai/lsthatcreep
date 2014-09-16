@@ -1,16 +1,24 @@
 package lsthatcreep;
 
+import java.util.Random;
+
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 public class Creep {
 	public int hp;
+	private Image healthbar;
+	Random r = new Random();
 	
-	public Creep(int i) {
+	public Creep(int i) throws SlickException {
 		hp = i;
+		healthbar = new Image("res/healthbar.png");
 	}
 	public int HP(){
 		return hp;
 	}
 	public void minus(int i) {
-		hp -= i;
+		hp -= Random(i);
 		
 	}
 	public void hit() {
@@ -27,5 +35,12 @@ public class Creep {
 			return false;
 		}
 	}
-	
+	public int Random(int i){
+		return 1+r.nextInt(i);
+	}
+	public void render(int j) {
+		for(int i=0 ; i < hp/10 ; i++){
+			healthbar.draw(LSThatCreep.GAME_WIDTH/2 + j*10, 500-(LSThatCreep.GAME_HEIGHT/2 + i*4));
+		}
+	}
 }

@@ -7,17 +7,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-import flappydot.PillarPair;
-
 public class LSThatCreep extends BasicGame{
 
 	public static int GAME_WIDTH = 700;
 	public static int GAME_HEIGHT = 500;
 	private Creep[] creep;
-	private int score;
-	private int hitdelay;
-	private boolean re;
-	private Creep creepB;
+	private int[] score;
+	private int[] HIT_DELAY;
+	private int CREEP_COUNT = 2;
+	private int CREEP_HP = 300;
 
 	
 	public LSThatCreep(String title) {
@@ -34,54 +32,73 @@ public class LSThatCreep extends BasicGame{
 		} catch (SlickException e) {
 		      e.printStackTrace();
 		    }
-
+		
 	}
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		g.drawString(""+score, GAME_WIDTH/2, 0);
-		g.drawString("delay : " + hitdelay, 200, 0);
-		g.drawString("A", 390, GAME_HEIGHT/2);
-		for(int i=0 ; i < creep.hp/10 ; i++){
-			g.drawString("|", 400+i*2, GAME_HEIGHT/2);
+		g.drawString("p1 score " + score[0], GAME_WIDTH/2, 0);
+		g.drawString("p2 score " + score[1], GAME_WIDTH/2, 20);
+		//g.drawString("p1 delay : " + HIT_DELAY[0], 200, 0);
+		//g.drawString("p2 delay : " + HIT_DELAY[1], 200, 20);
+		for (int i = 0; i < CREEP_COUNT ; i++){
+			creep[i].render(i);
 		}
-		g.drawString("S", 390, GAME_HEIGHT/2+20);
-		for(int i=0 ; i < creepB.hp/10 ; i++){
-			g.drawString("|", 400+i*2, GAME_HEIGHT/2+20);
-		}
-		/*if(!creep.isDead()){
-			g.drawString(""+creep.hp, GAME_WIDTH/2, GAME_HEIGHT/2);
-		} */
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		creep = new Creep[2];
-		for (int i = 0; i < 2; i++) {
-		      creep[i] = new Creep(300);
+		creep = new Creep[CREEP_COUNT];
+		score = new int[2];
+		HIT_DELAY = new int[2];
+		for (int i = 0; i < CREEP_COUNT; i++) {
+		      creep[i] = new Creep(CREEP_HP);
 		}
 	}
 
 	@Override
 	public void update(GameContainer container, int g) throws SlickException {
-		if (!creep.isDead())	{
-			creep.minus(1);
+		for (int i = 0 ; i < CREEP_COUNT ; i++){
+			if (!creep[i].isDead())	{
+				creep[i].minus(i+1);
+			}
+				
+			if (creep[i].isDead()){
+				creep[i].hp=CREEP_HP;
+			}
 		}
-		if (hitdelay>0) { 
-			hitdelay--;
+		if (HIT_DELAY[0]>0) { 
+			HIT_DELAY[0]--;
 		}
-		if (creep.isDead()){
-			creep.hp=300;
+		if (HIT_DELAY[1]>0) {
+			HIT_DELAY[1]--;
 		}
 	}
 	
 	@Override
 	public void keyPressed(int key, char c) {
-		if (key == Input.KEY_A && !creep.isDead() && hitdelay == 0) {
-			creep.hit();
-			hitdelay=20;
-			if(creep.isDead()){
-				score++;
+		if (key == Input.KEY_A || key == Input.KEY_S && HIT_DELAY[0] == 0) {
+			HIT_DELAY[0] = 40;
+			if(key == Input.KEY_A) {
+				creep[0].hit();
+			}
+			if(key == Input.KEY_S) {
+				creep[1].hit();
+			}
+			if(creep[0].isDead() || creep[1].isDead()) {
+					score[0]++;
+			}
+		}
+		if (key == Input.KEY_K || key == Input.KEY_L && HIT_DELAY[1] == 0) {
+			HIT_DELAY[1] = 40;
+			if(key == Input.KEY_K) {
+				creep[0].hit();
+			}
+			if(key == Input.KEY_L) {
+				creep[1].hit();
+			}
+			if(creep[0].isDead() || creep[1].isDead()) {
+				score[1]++;
 			}
 		}
 	 }
