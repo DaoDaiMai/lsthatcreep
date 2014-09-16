@@ -41,6 +41,8 @@ public class LSThatCreep extends BasicGame{
 		g.drawString("p2 score " + score[1], GAME_WIDTH/2, 20);
 		//g.drawString("p1 delay : " + HIT_DELAY[0], 200, 0);
 		//g.drawString("p2 delay : " + HIT_DELAY[1], 200, 20);
+		g.drawString(" A/K", GAME_WIDTH/2, 450);
+		g.drawString(" S/L", GAME_WIDTH/2 + 45, 450);
 		for (int i = 0; i < CREEP_COUNT ; i++){
 			creep[i].render(i);
 		}
@@ -77,7 +79,7 @@ public class LSThatCreep extends BasicGame{
 	
 	@Override
 	public void keyPressed(int key, char c) {
-		if (key == Input.KEY_A || key == Input.KEY_S && HIT_DELAY[0] == 0) {
+		if ((key == Input.KEY_A || key == Input.KEY_S) && HIT_DELAY[0] == 0) {
 			HIT_DELAY[0] = 40;
 			if(key == Input.KEY_A) {
 				creep[0].hit();
@@ -89,7 +91,7 @@ public class LSThatCreep extends BasicGame{
 					score[0]++;
 			}
 		}
-		if (key == Input.KEY_K || key == Input.KEY_L && HIT_DELAY[1] == 0) {
+		if ((key == Input.KEY_K || key == Input.KEY_L) && HIT_DELAY[1] == 0) {
 			HIT_DELAY[1] = 40;
 			if(key == Input.KEY_K) {
 				creep[0].hit();

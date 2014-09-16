@@ -39,8 +39,8 @@ public class Creep {
 		return 1+r.nextInt(i);
 	}
 	public void render(int j) {
-		for(int i=0 ; i < hp/10 ; i++){
-			healthbar.draw(LSThatCreep.GAME_WIDTH/2 + j*10, 500-(LSThatCreep.GAME_HEIGHT/2 + i*4));
+		for(int i=0 ; i < hp/2 ; i++){
+			healthbar.draw(LSThatCreep.GAME_WIDTH/2 + j*50, 700-(LSThatCreep.GAME_HEIGHT/2 + i*2));
 		}
 	}
 }
