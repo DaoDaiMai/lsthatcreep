@@ -43,4 +43,8 @@ public class Creep {
 			healthbar.draw(LSThatCreep.GAME_WIDTH/2 + j*50, 700-(LSThatCreep.GAME_HEIGHT/2 + i*2));
 		}
 	}
+	public void Spawn() {
+		hp = LSThatCreep.CREEP_HP;
+		
+	}
 }

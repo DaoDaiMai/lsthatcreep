@@ -11,11 +11,13 @@ public class LSThatCreep extends BasicGame{
 
 	public static int GAME_WIDTH = 700;
 	public static int GAME_HEIGHT = 500;
+	public static int CREEP_HP = 300;
 	private Creep[] creep;
-	private int[] score;
-	private int[] HIT_DELAY;
+	private Player[] player;
 	private int CREEP_COUNT = 2;
-	private int CREEP_HP = 300;
+	private int END;
+	
+	
 
 	
 	public LSThatCreep(String title) {
@@ -37,25 +39,37 @@ public class LSThatCreep extends BasicGame{
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		g.drawString("p1 score " + score[0], GAME_WIDTH/2, 0);
-		g.drawString("p2 score " + score[1], GAME_WIDTH/2, 20);
-		//g.drawString("p1 delay : " + HIT_DELAY[0], 200, 0);
-		//g.drawString("p2 delay : " + HIT_DELAY[1], 200, 20);
+		if (END>0) {
+			g.drawString("p1 score " + player[0].Score, GAME_WIDTH/2, 0);
+			g.drawString("p2 score " + player[1].Score, GAME_WIDTH/2, 20);
+		g.drawString("p1 delay : " + player[0].CurrentDelay, 200, 0);
+		g.drawString("p2 delay : " + player[1].CurrentDelay, 200, 20);
 		g.drawString(" A/K", GAME_WIDTH/2, 450);
 		g.drawString(" S/L", GAME_WIDTH/2 + 45, 450);
-		for (int i = 0; i < CREEP_COUNT ; i++){
-			creep[i].render(i);
+			for (int i = 0; i < CREEP_COUNT ; i++){
+				creep[i].render(i);
+			}
 		}
+		
+		else {
+			g.drawString("END", GAME_WIDTH/2, GAME_HEIGHT/2);
+		}
+		g.drawString("Creep Left "+END, 30, 40);
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
+		END = 10;
+		player = new Player[2];
+		player[0] = new Player();
+		player[1] = new Player();
+		player[0].setPlayer(200, 50, 60);
+		player[1].setPlayer(200, 80, 90);
 		creep = new Creep[CREEP_COUNT];
-		score = new int[2];
-		HIT_DELAY = new int[2];
 		for (int i = 0; i < CREEP_COUNT; i++) {
-		      creep[i] = new Creep(CREEP_HP);
+			creep[i] = new Creep(CREEP_HP);
 		}
+		
 	}
 
 	@Override
@@ -66,21 +80,25 @@ public class LSThatCreep extends BasicGame{
 			}
 				
 			if (creep[i].isDead()){
-				creep[i].hp=CREEP_HP;
+				if (END>0){
+					END--;
+				}
+				creep[i].Spawn();
+				
 			}
 		}
-		if (HIT_DELAY[0]>0) { 
-			HIT_DELAY[0]--;
+		if (player[0].CurrentDelay>0) { 
+			player[0].CurrentDelay--;
 		}
-		if (HIT_DELAY[1]>0) {
-			HIT_DELAY[1]--;
+		if (player[1].CurrentDelay>0) {
+			player[1].CurrentDelay--;
 		}
 	}
 	
 	@Override
 	public void keyPressed(int key, char c) {
-		if ((key == Input.KEY_A || key == Input.KEY_S) && HIT_DELAY[0] == 0) {
-			HIT_DELAY[0] = 40;
+		if ((key == Input.KEY_A || key == Input.KEY_S) && player[0].CurrentDelay == 0) {
+			player[0].setDelay();
 			if(key == Input.KEY_A) {
 				creep[0].hit();
 			}
@@ -88,11 +106,11 @@ public class LSThatCreep extends BasicGame{
 				creep[1].hit();
 			}
 			if(creep[0].isDead() || creep[1].isDead()) {
-					score[0]++;
+					player[0].Score++;
 			}
 		}
-		if ((key == Input.KEY_K || key == Input.KEY_L) && HIT_DELAY[1] == 0) {
-			HIT_DELAY[1] = 40;
+		if ((key == Input.KEY_K || key == Input.KEY_L) && player[1].CurrentDelay == 0) {
+			player[1].setDelay();
 			if(key == Input.KEY_K) {
 				creep[0].hit();
 			}
@@ -100,7 +118,7 @@ public class LSThatCreep extends BasicGame{
 				creep[1].hit();
 			}
 			if(creep[0].isDead() || creep[1].isDead()) {
-				score[1]++;
+				player[1].Score++;
 			}
 		}
 	 }
