@@ -9,16 +9,25 @@ public class Player {
 		public int Coin;
 		private int Delay;
 		private int Hp;
+		public int count;
 	
 	public Player(){
 	
 	}
-	public void setPlayer(int hp, int dmg, int delay){
+	/*public void setPlayer(int hp, int dmg, int delay){
 		this.Hp = hp;
 		CurrentHp = hp;
 		CurrentDmg = dmg;
 		this.Delay = delay;
 		CurrentDelay = delay;
+		count = 0;
+	}*/
+	public void setPlayer(Hero hero){
+		Hp = hero.hp;
+		CurrentHp = Hp;
+		CurrentDmg = hero.damage;
+		Delay = hero.delay;
+		CurrentDelay = Delay;
 	}
 	public void GOLD(int coin){
 		Coin += coin;
