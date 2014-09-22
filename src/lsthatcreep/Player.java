@@ -8,6 +8,7 @@ public class Player {
 		public int Score;
 		public int Coin;
 		private int Delay;
+		public int delay;
 		private int Hp;
 		public int count;
 	
@@ -28,6 +29,7 @@ public class Player {
 		CurrentDmg = hero.damage;
 		Delay = hero.delay;
 		CurrentDelay = Delay;
+		delay = Delay;
 	}
 	public void GOLD(int coin){
 		Coin += coin;
