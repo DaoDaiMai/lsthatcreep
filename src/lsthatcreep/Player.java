@@ -15,14 +15,6 @@ public class Player {
 	public Player(){
 	
 	}
-	/*public void setPlayer(int hp, int dmg, int delay){
-		this.Hp = hp;
-		CurrentHp = hp;
-		CurrentDmg = dmg;
-		this.Delay = delay;
-		CurrentDelay = delay;
-		count = 0;
-	}*/
 	public void setPlayer(Hero hero){
 		Hp = hero.hp;
 		CurrentHp = Hp;
